@@ -1,0 +1,2 @@
+Start with
+Prototype -> Singleton -> Factory -> Abstract Factory -> Builder
