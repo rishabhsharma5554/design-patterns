@@ -45,6 +45,30 @@ import java.util.List;
  *   - Copying a configured Spring Bean definition
  *   - Game development: cloning enemy/unit templates with preset stats
  *
+ * ===================== INTERVIEW: Can we use Cloneable? =====================
+ *
+ * Q: Can we use Java's Cloneable interface for Prototype pattern?
+ * A: Yes, but it's NOT recommended. Here's why:
+ *
+ *   Custom Prototype (this file)             vs   Java's Cloneable
+ *   ─────────────────────────────────────────────────────────────────
+ *   You define clone() in your interface      |   clone() is in Object (protected)
+ *   Full control over copy logic              |   super.clone() does shallow copy, you fix the rest
+ *   No exceptions to handle                   |   Must handle CloneNotSupportedException
+ *   Clean, type-safe                          |   Returns Object, needs casting
+ *   Follows Open/Closed principle             |   Bypasses constructor — can break invariants
+ *
+ * Q: Then why does Cloneable exist?
+ * A: It's Java's built-in prototype support from JDK 1.0. super.clone() uses
+ *    native code to shallow-copy all fields automatically, so you don't have to
+ *    write `new Xyz(this.a, this.b, ...)` for every field. Useful when class has
+ *    50+ fields — you just deep-copy the mutable ones.
+ *
+ * Q: What's the best approach?
+ * A: Prefer custom Prototype interface (or copy constructors) for new code.
+ *    Use Cloneable only when working with legacy code that already depends on it.
+ *    Joshua Bloch (Effective Java, Item 13): "Cloneable is broken. Avoid it."
+ *
  * =====================================================================================
  */
 public interface Prototype {
