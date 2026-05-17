@@ -1,2 +1,17 @@
 Start with
-Prototype -> Singleton -> Factory -> Abstract Factory -> Builder
+1. Prototype        (When copying of object is expensive)
+   Examples: Student (shallow copy), Employee (deep copy — List), Person + Address (deep copy — nested object), Department (Cloneable)
+
+2. Singleton        (When you only want single object to be created)
+   Examples: DBConnection (Eager), DBConnectionLazy (Lazy), DBConnectionSynchronized (Synchronized),
+             DBConnectionDoubleLock (Double-Checked Locking), DBConnectionEnum (Enum — recommended)
+
+3. Factory          (When all object creation and its business logic should be at one place)
+   Examples: Shape (interface) → Square, Circle | ShapeInstanceFactory (creates shapes by name)
+
+4. Abstract Factory (When you have families of related objects — Factory of Factories)
+   Examples: Car (interface) → EconomicCar1, EconomicCar2, LuxuryCar1
+             EconomyCarFactory, LuxuryCarFactory | AbstractFactoryProducer (picks the right factory)
+
+5. Builder          (When you want to create object step by step — removes telescoping constructor problem)
+   Examples: ContructHome + ContructHome.Builder (fluent API), House + HouseDirector (with Director)
