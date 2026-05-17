@@ -1,0 +1,36 @@
+========================================
+        BEHAVIORAL DESIGN PATTERNS
+========================================
+
+Definition:
+-----------
+Guides how different objects communicate with each other effectively
+and distribute tasks effectively, making software system flexible
+and easy to maintain.
+
+
+Core Concepts:
+--------------
+1. Object Communication
+   - How objects interact and send messages to each other
+
+2. Responsibility Distribution
+   - How tasks/responsibilities are assigned among objects
+
+3. Flexibility & Maintainability
+   - Keeping the system loosely coupled so changes don't ripple
+
+
+Key Patterns:
+-------------
+1.  State                    - Alter behavior when internal state changes (e.g., vending machine states: idle, coin inserted, dispensing)
+2.  Observer                 - Notify dependents automatically when state changes (e.g., YouTube subscribe notifications)
+3.  Strategy                 - Swap algorithms at runtime (e.g., payment methods: UPI, credit card, net banking)
+4.  Chain of Responsibility  - Pass request along a chain of handlers (e.g., logging levels, ATM cash dispenser)
+5.  Template Method          - Define skeleton of algorithm, let subclasses fill in steps (e.g., making tea vs coffee — same steps, different ingredients)
+6.  Interpreter              - Define a grammar and interpret sentences in that language (e.g., parsing expressions, SQL-like queries)
+7.  Command                  - Encapsulate a request as an object (e.g., remote control buttons, task queue)
+8.  Iterator                 - Access elements sequentially without exposing internals (e.g., iterating over a playlist, file explorer)
+9.  Visitor                  - Add new operations without modifying existing classes (e.g., tax calculation on different item types)
+10. Mediator                 - Centralize complex communication between objects (e.g., chat room, air traffic controller)
+11. Memento                  - Capture and restore an object's state without exposing internals (e.g., undo/redo functionality)

@@ -1,11 +1,13 @@
 package com.rishabhtech.dp.solid.ocp;
 
-abstract class PaymentProcessor
+// Strategy Design Pattern promotes Open closed Design Principle
+
+interface PaymentProcessor
 {
-    public abstract void processPayment(Double amount);
+    void processPayment(Double amount);
 }
 
-class CreditCardPaymentProcessor extends PaymentProcessor
+class CreditCardPaymentProcessor implements PaymentProcessor
 {
     @Override
     public void processPayment(Double amount)
@@ -14,7 +16,7 @@ class CreditCardPaymentProcessor extends PaymentProcessor
     }
 }
 
-class PaypalPaymentProcessor extends PaymentProcessor
+class PaypalPaymentProcessor implements PaymentProcessor
 {
     @Override
     public void processPayment(Double amount)
