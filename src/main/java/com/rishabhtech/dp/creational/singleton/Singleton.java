@@ -139,6 +139,37 @@ class DBConnectionDoubleLock {
 //   - Thread-safe (enum constants are initialized once by the ClassLoader).
 //   - Serialization-safe (no extra readResolve() needed).
 //   - Reflection-proof (JVM prevents instantiation of enums via reflection).
+//
+// ===================== INTERVIEW: Why is Enum thread-safe without synchronized? =====================
+//
+// Q: We don't write any synchronized keyword in Enum, so how is it thread-safe?
+// A: Because enum constants are STATIC FINAL fields initialized in a static block.
+//    The JVM internally compiles `INSTANCE;` into something like:
+//
+//        public static final DBConnectionEnum INSTANCE;
+//        static {
+//            INSTANCE = new DBConnectionEnum();   // runs ONCE during class loading
+//        }
+//
+//    The JLS (Java Language Specification, §12.4.2) guarantees that:
+//      1. Class loading + static initialization is done by ONE thread.
+//      2. The JVM holds an internal lock during this process.
+//      3. All other threads WAIT until initialization is complete.
+//      4. After that, INSTANCE is already created — no race condition possible.
+//
+//    So the thread-safety comes from the CLASS LOADER, not from synchronized.
+//    It's the same reason Eager Singleton (way #1) is also thread-safe —
+//    static final fields are initialized at class load time under JVM's internal lock.
+//
+// Q: Why is Enum BETTER than Eager then?
+// A: Enum additionally prevents:
+//      - Reflection attack: JVM throws IllegalArgumentException if you try
+//        Constructor.newInstance() on an enum.
+//      - Serialization attack: Enum serialization is handled by JVM —
+//        it always returns the same INSTANCE, no readResolve() needed.
+//      - Cloning: Enums cannot be cloned (clone() throws CloneNotSupportedException).
+//
+// ==========================================================================================
 enum DBConnectionEnum {
 
     INSTANCE;  // This IS the singleton instance
