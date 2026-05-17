@@ -128,6 +128,67 @@ class Employee implements Prototype {
 }
 
 /**
+ * ============================= DEEP COPY WITH NESTED OBJECT (Address) =============================
+ *
+ * Person has a mutable reference to an Address object.
+ * This is a more realistic deep copy scenario — an object inside another object.
+ *
+ * Shallow copy problem:
+ *   Person original = new Person("Ram", address);
+ *   Person clone = shallowCopy(original);
+ *   clone.address.city = "Mumbai";    // This ALSO changes original's city! (same reference)
+ *
+ * Deep copy fix:
+ *   Clone the Address object too, so both Person objects have independent Address instances.
+ */
+@AllArgsConstructor
+@ToString
+class Address {
+    String city;
+    String state;
+    int pinCode;
+
+    // Deep copy of Address — returns a completely new Address object
+    Address deepCopy() {
+        return new Address(this.city, this.state, this.pinCode);
+    }
+}
+
+@AllArgsConstructor
+@ToString
+class Person implements Prototype {
+
+    private String name;
+    private int age;
+    private Address address;  // Mutable nested object — MUST be deep copied
+
+    /**
+     * DEEP COPY: copies primitives/Strings by value,
+     * and creates a NEW Address object for the clone.
+     * Without address.deepCopy(), both original and clone would share the same Address.
+     */
+    @Override
+    public Prototype clone() {
+        return new Person(this.name, this.age, this.address.deepCopy());
+    }
+
+    static void main() {
+        Address address = new Address("Delhi", "Delhi", 110001);
+        Person original = new Person("Ram", 25, address);
+        Person cloned = (Person) original.clone();
+
+        // Modify the clone's address
+        cloned.address.city = "Mumbai";
+        cloned.address.state = "Maharashtra";
+        cloned.address.pinCode = 400001;
+
+        // Original is NOT affected — proof that nested object was deep copied
+        System.out.println("Original: " + original);  // city=Delhi
+        System.out.println("Cloned:   " + cloned);    // city=Mumbai
+    }
+}
+
+/**
  * ============================= USING JAVA's CLONEABLE INTERFACE =============================
  *
  * Java provides a built-in cloning mechanism:
